@@ -4,7 +4,7 @@ __pycache__/
 
 instance/
 
-static/uploads/
+app/static/uploads/
 
 .DS_Store
 
