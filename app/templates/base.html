@@ -1,0 +1,43 @@
+<!-- home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelNest - Image Editor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+</head>
+<body>
+
+    <!-- Navigation Section -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('main.home') }}" class="logo">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="PixelNest Logo" class="logoimg">
+                <span>PixelNest</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Image to PDF</a>
+                <a href="#showcase" class="nav-link">Resize</a>
+                <a href="#pricing" class="nav-link">Crop</a>
+                <a href="#pricing" class="nav-link">Compress</a>
+                <a href="#editor" class="btn btn-primary">Launch Editor</a>
+            </div>
+
+            <button class="mobile-toggle" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+</body>
+</html>

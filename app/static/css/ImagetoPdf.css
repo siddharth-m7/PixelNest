@@ -1,0 +1,80 @@
+/* Global Styles */
+:root {
+    --bg-dark: #000000;
+    --bg-card: #090a0d;
+    --primary-blue: #144ac0;
+    --primary-pink: #d9217d;
+    --text-light: #e5e7eb;
+    --text-gray: #bdc0c4;
+}
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+h1 {
+    color: var(--bg-dark);
+}
+
+label {
+    color: #374151; /* Medium Gray */
+}
+
+/* Drop Zone */
+#drop-zone {
+    transition: border-color 0.3s;
+    color: var(--primary-pink);
+}
+#drop-zone:hover {
+    border-color: #3B82F6; /* Blue */
+}
+
+/* Progress Bar */
+#progress-container {
+    transition: opacity 0.3s;
+}
+
+/* Image Preview Styles */
+.image-preview {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.375rem; /* Rounded */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+.image-preview:hover {
+    transform: scale(1.05);
+}
+
+/* Button Styles */
+button {
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.02);
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+    .grid-cols-2 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+}
+
+/* Custom Classes for Tailwind */
+.bg-black-100 {
+    background-color: #F3F4F6; /* Light Gray */
+}
+
+.rounded-lg {
+    border-radius: 0.5rem; /* Custom border radius */
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Text Color */
+.text-gray-600 {
+    color: #4B5563; /* Gray */
+}
