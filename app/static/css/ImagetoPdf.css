@@ -9,8 +9,12 @@
 }
 body {
     font-family: 'Arial', sans-serif;
+    height: 50vh;
 }
 
+.extr {
+    margin-top:30vh;
+}
 h1 {
     color: var(--bg-dark);
 }
