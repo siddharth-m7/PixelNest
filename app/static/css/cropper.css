@@ -1,0 +1,214 @@
+/* static/css/style.css */
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --background-color: #f8fafc;
+    --border-color: #e2e8f0;
+    --text-color: #1e293b;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    margin-top: 50px;
+    background-color: white;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+}
+
+h1 {
+    text-align: center;
+    color: var(--text-color);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.upload-section {
+    background: white;
+    margin: 20px auto;
+    padding: 40px 20px;
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    text-align: center;
+    max-width: 600px;
+    transition: all 0.3s ease;
+}
+
+.upload-section:hover {
+    border-color: var(--primary-color);
+}
+
+.upload-section input[type="file"] {
+    display: none;
+}
+
+.upload-label {
+    display: inline-block;
+    padding: 12px 24px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.upload-label:hover {
+    background: var(--primary-hover);
+}
+
+.editor-container {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin: 20px auto;
+}
+
+.image-container {
+    position: relative;
+    max-width: 100%;
+    height: calc(100vh - 300px);
+    min-height: 400px;
+    margin: 0 auto;
+    background: #f1f5f9;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#image {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+button {
+    padding: 12px 24px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+button.secondary {
+    background: white;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+button.secondary:hover {
+    background: #f8fafc;
+    border-color: var(--text-color);
+}
+
+.result-container {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+#croppedImage {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+/* Cropper.js custom styles */
+.cropper-view-box {
+    outline: 2px solid #fff;
+    outline-color: var(--primary-color);
+}
+
+.cropper-line {
+    background-color: var(--primary-color);
+}
+
+.cropper-point {
+    background-color: var(--primary-color);
+    width: 12px;
+    height: 12px;
+}
+
+.cropper-face {
+    background-color: inherit;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .image-container {
+        height: calc(100vh - 250px);
+        min-height: 300px;
+    }
+
+    button {
+        padding: 10px 20px;
+    }
+}
+
+/* Loading state */
+.loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Image size info */
+.image-info {
+    text-align: center;
+    color: #64748b;
+    margin: 10px 0;
+    font-size: 0.9rem;
+}

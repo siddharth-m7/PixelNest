@@ -3,6 +3,7 @@ from werkzeug.utils import secure_filename
 from PIL import Image
 import os
 import io
+import base64
 from datetime import datetime
 main = Blueprint('main', __name__)
 
@@ -73,6 +74,52 @@ def allowed_file(filename):
 @main.route('/')
 def home():
     return render_template('home.html')
+
+
+
+@main.route('/crop')
+def crop():
+    return render_template('cropper.html')
+
+@main.route('/crop', methods=['POST'])
+def crop_image():
+    try:
+        # Get the base64 string from the request
+        data = request.json
+        image_data = data['image'].split(',')[1]
+        crop_data = data['cropData']
+        
+        # Convert base64 to image
+        img_bytes = base64.b64decode(image_data)
+        img = Image.open(io.BytesIO(img_bytes))
+        
+        # Crop image
+        cropped = img.crop((
+            int(float(crop_data['x'])),
+            int(float(crop_data['y'])),
+            int(float(crop_data['x'] + crop_data['width'])),
+            int(float(crop_data['y'] + crop_data['height']))
+        ))
+        
+        # Save to bytes
+        output = io.BytesIO()
+        cropped.save(output, format='PNG')
+        output.seek(0)
+        
+        # Convert back to base64
+        cropped_base64 = base64.b64encode(output.getvalue()).decode()
+        
+        return jsonify({
+            'status': 'success',
+            'cropped_image': f'data:image/png;base64,{cropped_base64}'
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 400
+
 
 @main.route('/ImgtoPdf')
 def ImgtoPdf():

@@ -1,0 +1,78 @@
+<!-- templates/index.html -->
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Cropper</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cropper.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Image Cropper</h1>
+        
+        <div class="upload-section" id="uploadSection">
+            <label for="imageInput" class="upload-label">
+                Choose an Image
+            </label>
+            <input type="file" id="imageInput" accept="image/*">
+            <p class="image-info">Supports JPG, PNG, WebP formats</p>
+        </div>
+
+        <div class="editor-container" style="display: none;">
+            <div class="image-container">
+                <img id="image" src="" alt="Image to crop">
+            </div>
+            
+            <div class="image-info" id="imageInfo"></div>
+            
+            <div class="controls">
+                <button id="cropBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6.13 1L6 16a2 2 0 0 0 2 2h15"></path>
+                        <path d="M1 6.13L16 6a2 2 0 0 1 2 2v15"></path>
+                    </svg>
+                    Crop Image
+                </button>
+                <button id="resetBtn" class="secondary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 2v6h6"></path>
+                        <path d="M21 12A9 9 0 0 0 6 5.3L3 8"></path>
+                        <path d="M21 22v-6h-6"></path>
+                        <path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"></path>
+                    </svg>
+                    Reset
+                </button>
+            </div>
+        </div>
+
+        <div class="result-container" style="display: none;">
+            <h2>Cropped Result</h2>
+            <img id="croppedImage" src="" alt="Cropped result">
+            <div class="controls">
+                <button id="downloadBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download
+                </button>
+                <button id="backBtn" class="secondary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 18l-6-6 6-6"></path>
+                    </svg>
+                    Crop Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="{{ url_for('static', filename='js/cropper.js') }}"></script>
+</body>
+</html>
+{% endblock %}
