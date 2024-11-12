@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 </head>
 <body>
-
     <!-- Navigation Section -->
     <nav class="navbar">
         <div class="nav-container">
@@ -16,12 +15,13 @@
                 <img src="{{ url_for('static', filename='img/logo.png') }}" alt="PixelNest Logo" class="logoimg">
                 <span>PixelNest</span>
             </a>
+
             
             <div class="nav-links">
                 <a href="{{url_for('main.ImgtoPdf')}}" class="nav-link">Image to PDF</a>
                 <a href="{{url_for('main.crop')}}" class="nav-link">Crop</a>
                 <a href="{{url_for('main.compress')}}" class="nav-link">Compress</a>
-                <a href="#editor" class="btn btn-primary">Launch Editor</a>
+                <a href="{{url_for('main.edit')}}" class="btn btn-primary">Launch Editor</a>
             </div>
 
             <button class="mobile-toggle" aria-label="Toggle Menu">
@@ -35,6 +35,10 @@
 
     {% block content %}
     {% endblock %}
+
+    
+   
+    
 
 
     <script src="{{ url_for('static', filename='js/base.js') }}"></script>

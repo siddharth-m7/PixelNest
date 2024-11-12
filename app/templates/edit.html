@@ -1,0 +1,210 @@
+
+<!-- templates/edit.html -->
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Editor</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+        }
+        .container {
+            margin-top: 80px;
+            display: flex;
+            gap: 20px;
+        }
+        .controls {
+            flex: 1;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+        .image-container {
+            flex: 2;
+            text-align: center;
+        }
+        .slider-container {
+            margin: 15px 0;
+        }
+        .slider-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .slider {
+            width: 100%;
+        }
+        .checkbox-container {
+            margin: 15px 0;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        #imagePreview {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .reset-button {
+            background: #f44336;
+        }
+        .save-button {
+            background: #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="controls">
+            <h2>Image Controls</h2>
+            
+            <div class="slider-container">
+                <label for="brightness">Brightness</label>
+                <input type="range" id="brightness" class="slider" min="0" max="100" value="50">
+            </div>
+
+            <div class="slider-container">
+                <label for="contrast">Contrast</label>
+                <input type="range" id="contrast" class="slider" min="0" max="100" value="50">
+            </div>
+
+            <div class="slider-container">
+                <label for="saturation">Saturation</label>
+                <input type="range" id="saturation" class="slider" min="0" max="100" value="50">
+            </div>
+
+            <div class="slider-container">
+                <label for="rotate">Rotate (degrees)</label>
+                <input type="range" id="rotate" class="slider" min="0" max="360" value="0">
+            </div>
+
+            <div class="slider-container">
+                <label for="sharpness">Sharpness</label>
+                <input type="range" id="sharpness" class="slider" min="0" max="100" value="0">
+            </div>
+
+            <div class="slider-container">
+                <label for="blur">Blur</label>
+                <input type="range" id="blur" class="slider" min="0" max="10" value="0" step="0.1">
+            </div>
+
+            <div class="checkbox-container">
+                <label>
+                    <input type="checkbox" id="flip"> Flip Horizontal
+                </label>
+            </div>
+
+            <div class="checkbox-container">
+                <label>
+                    <input type="checkbox" id="grayscale"> Grayscale
+                </label>
+            </div>
+
+            <button onclick="applyEdits()">Apply Changes</button>
+            <button onclick="resetEdits()" class="reset-button">Reset</button>
+            <button onclick="saveImage()" class="save-button">Save Image</button>
+        </div>
+        
+        <div class="image-container">
+            <h2>Preview</h2>
+            <img id="imagePreview" src="{{ url_for('static', filename='uploads/' + filename) }}">
+        </div>
+    </div>
+
+    <script>
+        let originalSrc = document.getElementById('imagePreview').src;
+        let lastAppliedSettings = null;
+
+        function getSettings() {
+            return {
+                filename: '{{ filename }}',
+                brightness: document.getElementById('brightness').value,
+                contrast: document.getElementById('contrast').value,
+                saturation: document.getElementById('saturation').value,
+                rotate: document.getElementById('rotate').value,
+                flip: document.getElementById('flip').checked,
+                sharpness: document.getElementById('sharpness').value,
+                blur: document.getElementById('blur').value,
+                grayscale: document.getElementById('grayscale').checked
+            };
+        }
+
+        function applyEdits() {
+            const settings = getSettings();
+            lastAppliedSettings = settings;
+
+            fetch('/apply_edit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(settings)
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = URL.createObjectURL(blob);
+                document.getElementById('imagePreview').src = url;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function resetEdits() {
+            document.getElementById('brightness').value = 50;
+            document.getElementById('contrast').value = 50;
+            document.getElementById('saturation').value = 50;
+            document.getElementById('rotate').value = 0;
+            document.getElementById('flip').checked = false;
+            document.getElementById('sharpness').value = 0;
+            document.getElementById('blur').value = 0;
+            document.getElementById('grayscale').checked = false;
+            
+            document.getElementById('imagePreview').src = originalSrc;
+        }
+
+        function saveImage() {
+            if (!lastAppliedSettings) {
+                alert('Please apply your changes before saving.');
+                return;
+            }
+
+            const link = document.createElement('a');
+            link.href = document.getElementById('imagePreview').src;
+            link.download = 'edited_' + lastAppliedSettings.filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Optional: Add event listeners for real-time preview
+        const sliders = document.querySelectorAll('.slider');
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+        [...sliders, ...checkboxes].forEach(input => {
+            input.addEventListener('change', () => {
+                applyEdits();
+            });
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

@@ -1,6 +1,6 @@
-from flask import Flask, Blueprint, render_template, request, jsonify, send_file, current_app
+from flask import Flask, Blueprint, render_template, request, jsonify, send_file, current_app, redirect, url_for
 from werkzeug.utils import secure_filename
-from PIL import Image
+from PIL import Image, ImageEnhance, ImageFilter
 import os
 import io
 import base64
@@ -74,6 +74,100 @@ def allowed_file(filename):
 @main.route('/')
 def home():
     return render_template('home.html')
+
+
+
+@main.route('/edit', methods=['GET', 'POST'])
+def edit():
+    return render_template('upload.html')
+
+
+@main.route('/upload', methods=['POST'])
+def upload():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            return 'No file part'
+        file = request.files['file']
+        if file.filename == '':
+            return 'No selected file'
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+            return redirect(url_for('main.edit_image', filename=filename))
+    return 'Invalid file type'
+
+
+@main.route('/edit/<filename>')
+def edit_image(filename):
+    return render_template('edit.html', filename=filename)
+
+@main.route('/apply_edit', methods=['POST'])
+def apply_edit():
+    data = request.json
+    filename = data['filename']
+    
+    # Parse incoming parameters
+    brightness = float(data['brightness'])
+    contrast = float(data['contrast'])
+    saturation = float(data['saturation'])
+    rotate_angle = float(data['rotate'])
+    flip_horizontal = data['flip']
+    
+    sharpness = float(data['sharpness'])
+    blur_radius = float(data['blur'])
+    grayscale = data['grayscale']
+    
+       
+    file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+    image = Image.open(file_path)
+
+    # Apply enhancements
+    image = adjust_brightness(image, brightness)
+    image = adjust_contrast(image, contrast)
+    image = adjust_saturation(image, saturation)
+    image = rotate_image(image, rotate_angle)
+
+    if flip_horizontal:
+        image = image.transpose(Image.FLIP_LEFT_RIGHT)
+        
+    if sharpness > 0:
+        image = adjust_sharpness(image, sharpness)
+
+    if blur_radius > 0:
+        image = image.filter(ImageFilter.GaussianBlur(blur_radius))
+
+
+    if grayscale:
+        image = image.convert("L")
+    
+    # Return the edited image
+    img_io = io.BytesIO()
+    image.save(img_io, format='JPEG')
+    img_io.seek(0)
+
+    return send_file(img_io, mimetype='image/jpeg')
+
+# Helper functions for editing with Pillow
+def adjust_brightness(image, brightness):
+    enhancer = ImageEnhance.Brightness(image)
+    return enhancer.enhance(brightness / 50)  # Scale (0-100) to factor (0-2)
+
+def adjust_contrast(image, contrast):
+    enhancer = ImageEnhance.Contrast(image)
+    return enhancer.enhance(contrast / 50)  # Scale (0-100) to factor (0-2)
+
+def adjust_saturation(image, saturation):
+    enhancer = ImageEnhance.Color(image)
+    return enhancer.enhance(saturation / 50)  # Scale (0-100) to factor (0-2)
+
+def adjust_sharpness(image, sharpness):
+    enhancer = ImageEnhance.Sharpness(image)
+    return enhancer.enhance(sharpness / 50)  # Scale (0-100) to factor (0-2)
+
+def rotate_image(image, angle):
+    return image.rotate(angle, expand=True)
+
 
 
 
