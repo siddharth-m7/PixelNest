@@ -68,6 +68,7 @@ def compress_image(image, quality=60, max_size=(2000, 2000)):
         'compression_percent': compression_percent
     }
 
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'gif'}
 
