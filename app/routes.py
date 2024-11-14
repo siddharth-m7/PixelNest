@@ -83,8 +83,8 @@ def edit():
     return render_template('upload.html')
 
 
-@main.route('/upload', methods=['POST'])
-def upload():
+@main.route('/upload1', methods=['POST'])
+def upload1():
     if request.method == 'POST':
         if 'file' not in request.files:
             return 'No file part'
