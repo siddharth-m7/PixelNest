@@ -42,7 +42,7 @@
             <h1>Transform Your Vision Into Reality</h1>
             <p>Professional image editing tools powered by cutting-edge technology</p>
             <div class="button-group">
-                <a href="#editor" class="btn btn-primary pulse">Start Creating</a>
+                <a href="{{url_for('main.edit')}}" class="btn btn-primary pulse">Start Creating</a>
                 </div>
         </div>
         <div class="hero-image slide-in-right">
@@ -82,38 +82,38 @@
 
 
     <!-- creation showcase  -->
-    <section id="showcase" class="showcase">
+    <!-- <section id="showcase" class="showcase">
         <h2 class="fade-in">Creation Showcase</h2>
         <div class="showcase-grid">
             <div class="showcase-item">
                 <img src="{{ url_for('static', filename='img/showcase1.jpeg') }}" alt="Showcase 1">
                 <div class="overlay">
                     <h4>Portrait Enhancement</h4>
-                    <p>AI-powered portrait retouching</p>
+                    
                 </div>
             </div>
             <div class="showcase-item">
                 <img src="{{ url_for('static', filename='img/showcase2.jpeg') }}" alt="Showcase 2">
                 <div class="overlay">
                     <h4>Background Removal</h4>
-                    <p>Perfect cutouts in seconds</p>
+                    
                 </div>
             </div>
             <div class="showcase-item">
                 <img src="{{ url_for('static', filename='img/showcase3.webp') }}" alt="Showcase 3">
                 <div class="overlay">
                     <h4>Color Correction</h4>
-                    <p>Professional color grading</p>
+                    
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <section class="cta fade-in">
         <div class="cta-content slide-in-left">
             <h2>Ready to Transform Your Images?</h2>
             <p>Join thousands of creators who trust PixelNest</p>
-            <a href="#editor" class="btn btn-primary pulse">Get Started Free</a>
+            <a href="{{url_for('main.edit')}}" class="btn btn-primary pulse">Get Started Free</a>
         </div>
         <div class="cta-image slide-in-right">
             <img src="{{ url_for('static', filename='img/1.jpg') }}" alt="CTA Image">
@@ -128,9 +128,15 @@
             </div>
             <div class="footer-links">
                 <a href="#features">Features</a>
-                <a href="#pricing">Pricing</a>
-                <a href="#support">Support</a>
-                <a href="#privacy">Privacy</a>
+                <a href="{{url_for('main.support')}}"=>Support</a>
+                <a href="https://github.com/siddharth-m7">
+                    Github &nbsp
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com/in/siddharthm7">
+                    Linkedin &nbsp
+                    <i class="fab fa-linkedin"></i>
+                </a>
             </div>
         </div>
     </footer>

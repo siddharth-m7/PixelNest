@@ -291,6 +291,10 @@ def convert_to_pdf():
         return jsonify({'error': str(e)}), 500
     
 
+@main.route('/suppprt')
+def support():
+    return render_template('support.html')
+
 
 
 @main.route('/compress')
